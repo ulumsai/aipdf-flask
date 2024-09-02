@@ -1,0 +1,58 @@
+# ChatBot-Genai: Chat with Your Documents
+
+## Installation
+
+### Prerequisites
+
+- Python 3.10 or higher
+- A virtual environment (recommended)
+
+### Clone the Repository
+
+Clone the ChatBot-Genai repository from GitHub:
+
+```bash
+git clone https://github.com/ulumsai/engine-ai-pdf.git
+```
+
+### Using `venv`
+
+1. Create a virtual environment:
+
+```bash
+python3 -m venv aipdf-venv
+```
+
+2. Activate the virtual environment:
+
+```bash
+source aipdf-venv/bin/activate
+```
+
+3. Install the required dependencies:
+
+```bash
+pip3 install -r requirements.txt
+```
+
+## Usage
+
+1. **Set API Keys:**
+```
+cp .env.example .env
+```
+fill the key
+
+2. export app
+
+```bash
+export PYTHONPATH=/path/to/aipdf-flask
+export FLASK_APP=app.py
+export FLASK_ENV=development 
+```
+
+3. **Run the Application:**
+
+```bash
+flask run
+```
