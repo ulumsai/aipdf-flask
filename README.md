@@ -65,8 +65,26 @@ flask run
 
 ## Installation
 
-1. instal docker 
-2. run script 
+### Install Docker 
+    install docker from official site https://www.docker.com/get-started/ 
+
+### Clone the Repository
+
+Clone the ChatBot-Genai repository from GitHub:
+
+```bash
+git clone https://github.com/ulumsai/engine-ai-pdf.git
+```
+
+## Usage
+
+1. **Set API Keys:**
+    ```
+    cp .env.example .env
+    ```
+    fill the key
+
+2. **Run Application**
     ```bash
     sh start.sh
     ```
