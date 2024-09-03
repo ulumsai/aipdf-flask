@@ -1,5 +1,7 @@
 # ChatBot-Genai: Chat with Your Documents
 
+# LOCAL
+
 ## Installation
 
 ### Prerequisites
@@ -58,3 +60,13 @@ export FLASK_ENV=development
 ```bash
 flask run
 ```
+
+# USE DOCKER
+
+## Installation
+
+1. instal docker 
+2. run script 
+    ```bash
+    sh start.sh
+    ```
