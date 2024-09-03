@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from . import core as core
+from . import core
 from langchain_core.messages import AIMessage, HumanMessage
 import os
 from dotenv import load_dotenv
@@ -67,7 +67,10 @@ def process_prompt(input):
 
 @app.route('/')
 def index():
-    return jsonify({"wellcome to chatbot-ai-pdf"}), 200
+    data = {
+        "message": "Hello, wellcome to chatbot-ai-pdf",
+    }
+    return jsonify(data), 200
 
 @app.route('/ask', methods=['POST'])
 def process():

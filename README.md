@@ -43,7 +43,7 @@ cp .env.example .env
 ```
 fill the key
 
-2. export app
+2. **Export app**
 
 ```bash
 export PYTHONPATH=/path/to/aipdf-flask
@@ -51,7 +51,9 @@ export FLASK_APP=app.py
 export FLASK_ENV=development 
 ```
 
-3. **Run the Application:**
+3. **Upload your all document into folder docs**
+
+4. **Run the Application:**
 
 ```bash
 flask run
