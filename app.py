@@ -6,6 +6,9 @@ from langchain_core.messages import AIMessage, HumanMessage
 import os
 from dotenv import load_dotenv
 
+import logging
+from datetime import datetime
+
 app = Flask(__name__)
 CORS(app)
 load_dotenv()
@@ -21,6 +24,33 @@ state = {
     "vectorstore":[],
     "messages":[],
 }
+
+# Configure logging
+if not app.debug:
+    # Ensure the log directory exists
+    if not os.path.exists('logs'):
+        os.mkdir('logs')
+
+    # Get today's date
+    log_filename = datetime.now().strftime('logs/app_%Y-%m-%d.log')
+
+    # Create a file handler with the dated log filename
+    file_handler = logging.FileHandler(log_filename)
+    file_handler.setLevel(logging.INFO)
+    
+    # Create a logging format
+    formatter = logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
+    file_handler.setFormatter(formatter)
+
+    # Add the file handler to the Flask app's logger
+    app.logger.addHandler(file_handler)
+
+    # Set the log level
+    app.logger.setLevel(logging.INFO)
+
+    app.logger.info('Flask application startup')
+
 
 def run_on_start():
     print('Process get vectore from document ...')
@@ -41,6 +71,7 @@ def run_on_start():
     state["vectorstore"] = get_vectorstore_instance.get_vectorstore(
         text_chunks, model_name
     )
+    # .. save ke elasticsearch
     
     print('finish get vectore.')
 
@@ -48,6 +79,8 @@ run_on_start()  # Call the function on app startup
 
 def process_prompt(input):
     langchain_local = core.langchain_local.LangchainLocal(state)
+    
+    ## load vectorstore from elasticsearch
     response_generator = langchain_local.get_response(
         user_input=input,
         chat_history=state["chat_dialog_history"],
@@ -67,6 +100,7 @@ def process_prompt(input):
 
 @app.route('/')
 def index():
+    app.logger.info('App Accessed')
     data = {
         "message": "Hello, wellcome to chatbot-ai-pdf",
     }
@@ -75,13 +109,22 @@ def index():
 @app.route('/ask', methods=['POST'])
 def process():
     input_data = request.json.get('question')
+    app.logger.info(f'Received request data: {input_data}')
+    
     if not input_data:
-        return jsonify({"error": "No data provided"}), 400
+        error_msg = "No data provided"
+        app.logger.warning(error_msg)
+        return jsonify({"error": error_msg}), 400
+    
     try:
+         # Process the request and log the response
         response_list = process_prompt(input_data)
+        app.logger.info(f'Response data: {response_list}')
         return jsonify({"message": response_list}), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        error_msg = str(e)
+        app.logger.error(f'Error occurred: {error_msg}')
+        return jsonify({"error": error_msg}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
