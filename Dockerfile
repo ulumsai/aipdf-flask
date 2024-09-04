@@ -30,7 +30,7 @@ RUN chmod -R 777 /app/logs
 
 # Set environment variables for Flask
 ENV FLASK_APP=app.py
-ENV FLASK_ENV=production  # Set the environment to production
+ENV FLASK_ENV=production
 
 # Set the environment variables for using the virtual environment
 ENV VIRTUAL_ENV=/opt/venv
