@@ -1,7 +1,7 @@
 docker stop genai-app
 docker rm genai-app
 docker rmi genai-image
-docker-compose -f docker-compose-dev.yml up build --no-cache
+docker-compose -f docker-compose-dev.yml build --no-cache
 docker-compose -f docker-compose-dev.yml up -d
 # docker-compose exec -T app mkdir logs
 # docker-compose exec -T app chmod -R 777 logs

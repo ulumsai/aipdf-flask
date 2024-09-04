@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-# from . import core
-import core
+from . import core
+# import core
 from langchain_core.messages import AIMessage, HumanMessage
 import os
 from dotenv import load_dotenv
