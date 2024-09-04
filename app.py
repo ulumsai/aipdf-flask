@@ -43,31 +43,31 @@ app.logger.setLevel(logging.INFO)
 app.logger.info('Flask application startup')
 ## end logging
 
-def run_on_start():
-    print('Process get vectore from document ...')
-    text_chunks = []
-    
-    documents = []
-    for filename in os.listdir("core/docs"):
-        app.logger.info(f'processed file : {filename}')
-        documents.append(filename)
+# def run_on_start():
+print('Process get vectore from document ...')
+text_chunks = []
 
-    if documents is not None:
-        for doc in documents:
-            upload = core.uploadFile.UploadFile(doc)
-            splits = upload.get_document_splits()
-            text_chunks.extend(splits)
+documents = []
+for filename in os.listdir("core/docs"):
+    app.logger.info(f'processed file : {filename}')
+    documents.append(filename)
 
-    model_name = state["embedding_model"]
-    get_vectorstore_instance = core.ingest.GetVectorstore()
-    state["vectorstore"] = get_vectorstore_instance.get_vectorstore(
-        text_chunks, model_name
-    )
-    # .. save ke elasticsearch
-    
-    print('finish get vectore.')
+if documents is not None:
+    for doc in documents:
+        upload = core.uploadFile.UploadFile(doc)
+        splits = upload.get_document_splits()
+        text_chunks.extend(splits)
 
-run_on_start()  # Call the function on app startup
+model_name = state["embedding_model"]
+get_vectorstore_instance = core.ingest.GetVectorstore()
+state["vectorstore"] = get_vectorstore_instance.get_vectorstore(
+    text_chunks, model_name
+)
+# .. save ke elasticsearch
+
+print('finish get vectore.')
+
+# run_on_start()  # Call the function on app startup
 
 def process_prompt(input):
     langchain_local = core.langchain_local.LangchainLocal(state)
