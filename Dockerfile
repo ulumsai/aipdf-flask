@@ -23,6 +23,10 @@ COPY . .
 # Remove any .pyc files and __pycache__ directories
 RUN find . -name "*.pyc" -exec rm -f {} + && find . -name "__pycache__" -exec rm -rf {} +
 
+
+RUN chmod -R 777 /core/docs
+RUN chmod -R 777 /logs
+
 # Set environment variables for Flask
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
