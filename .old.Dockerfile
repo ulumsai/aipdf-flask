@@ -1,3 +1,5 @@
+# Dockerfile
+
 # Start with a base image that has Python installed
 FROM python:3.12-slim
 
@@ -15,22 +17,19 @@ RUN /opt/venv/bin/pip install --upgrade pip
 COPY requirements.txt .
 RUN /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
 
-# Install Gunicorn
-RUN /opt/venv/bin/pip install gunicorn
-
 # Copy the rest of the application code
 COPY . .
 
 # Remove any .pyc files and __pycache__ directories
 RUN find . -name "*.pyc" -exec rm -f {} + && find . -name "__pycache__" -exec rm -rf {} +
 
-# Set permissions for log and document directories
+
 RUN chmod -R 777 /app/core/docs
 RUN chmod -R 777 /app/logs
 
 # Set environment variables for Flask
 ENV FLASK_APP=app.py
-ENV FLASK_ENV=production  # Set the environment to production
+ENV FLASK_RUN_HOST=0.0.0.0
 
 # Set the environment variables for using the virtual environment
 ENV VIRTUAL_ENV=/opt/venv
@@ -42,5 +41,5 @@ ENV PYTHONPATH=/app
 # Expose port 5000
 EXPOSE 5000
 
-# Specify the command to run the application using Gunicorn
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
+# Specify the command to run the application using the virtual environment's Python
+CMD ["flask", "run"]
