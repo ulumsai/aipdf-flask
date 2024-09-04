@@ -24,10 +24,6 @@ COPY . .
 # Remove any .pyc files and __pycache__ directories
 RUN find . -name "*.pyc" -exec rm -f {} + && find . -name "__pycache__" -exec rm -rf {} +
 
-# Set permissions for log and document directories
-RUN chmod -R 777 /app/core/docs
-RUN chmod -R 777 /app/logs
-
 # Set environment variables for Flask
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=production
@@ -35,8 +31,6 @@ ENV FLASK_ENV=production
 # Set the environment variables for using the virtual environment
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
-# Set the Python path to include the working directory
 ENV PYTHONPATH=/app
 
 # Expose port 5000
