@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from . import core
-# import core
+# from . import core
+import core
 from langchain_core.messages import AIMessage, HumanMessage
 import os
 from dotenv import load_dotenv
+import mimetypes
 
 import logging
 from datetime import datetime
@@ -50,8 +51,10 @@ def run_on_start():
 
     documents = []
     for filename in os.listdir("core/docs"):
-        app.logger.info(f'processed file : {filename}')
-        documents.append(filename)
+        mime_type, _ = mimetypes.guess_type(filename)
+        if mime_type == 'application/pdf':
+            app.logger.info(f'processed file : {filename}')
+            documents.append(filename)
 
     if documents is not None:
         for doc in documents:
