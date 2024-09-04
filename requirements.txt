@@ -15,3 +15,4 @@ networkx>=3.2.1
 python-dotenv
 flask
 flask_cors
+gunicorn
