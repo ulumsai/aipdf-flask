@@ -68,7 +68,7 @@ def run_on_start():
 
     print('finish get vectore.')
 
-# run_on_start()  # Call the function on app startup
+run_on_start()  # Call the function on app startup
 
 def process_prompt(input):
     langchain_local = core.langchain_local.LangchainLocal(state)
@@ -118,8 +118,6 @@ def process():
         error_msg = str(e)
         app.logger.error(f'Error occurred: {error_msg}')
         return jsonify({"error": error_msg}), 500
-
-run_on_start()
     
 if __name__ == '__main__':
     app.run(debug=os.getenv("FLASK_DEBUG"))

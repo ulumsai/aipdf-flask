@@ -17,4 +17,4 @@ services:
       - ./logs:/app/logs  # Volume for storing logs
     environment:
       FLASK_ENV: production
-      FLASK_DEBUG: 1
+      FLASK_DEBUG: 0
