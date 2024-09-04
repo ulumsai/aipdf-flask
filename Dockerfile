@@ -24,8 +24,8 @@ COPY . .
 RUN find . -name "*.pyc" -exec rm -f {} + && find . -name "__pycache__" -exec rm -rf {} +
 
 
-RUN chmod -R 777 /core/docs
-RUN chmod -R 777 /logs
+RUN chmod -R 777 /app/core/docs
+RUN chmod -R 777 /app/logs
 
 # Set environment variables for Flask
 ENV FLASK_APP=app.py
