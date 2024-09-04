@@ -49,6 +49,7 @@ def run_on_start():
     
     documents = []
     for filename in os.listdir("core/docs"):
+        app.logger.info(f'processed file : {filename}')
         documents.append(filename)
 
     if documents is not None:
