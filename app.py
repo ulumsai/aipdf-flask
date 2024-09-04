@@ -26,31 +26,22 @@ state = {
 }
 
 # Configure logging
-if not app.debug:
-    # Ensure the log directory exists
-    if not os.path.exists('logs'):
-        os.mkdir('logs')
+log_dir = 'logs'
+if not os.path.exists(log_dir):
+    os.mkdir(log_dir)
 
-    # Get today's date
-    log_filename = datetime.now().strftime('logs/app_%Y-%m-%d.log')
+log_filename = os.path.join(log_dir, datetime.now().strftime('app_%Y-%m-%d.log'))
+file_handler = logging.FileHandler(log_filename)
+file_handler.setLevel(logging.INFO)
 
-    # Create a file handler with the dated log filename
-    file_handler = logging.FileHandler(log_filename)
-    file_handler.setLevel(logging.INFO)
-    
-    # Create a logging format
-    formatter = logging.Formatter(
-        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
-    file_handler.setFormatter(formatter)
+formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
+file_handler.setFormatter(formatter)
 
-    # Add the file handler to the Flask app's logger
-    app.logger.addHandler(file_handler)
+app.logger.addHandler(file_handler)
+app.logger.setLevel(logging.INFO)
 
-    # Set the log level
-    app.logger.setLevel(logging.INFO)
-
-    app.logger.info('Flask application startup')
-
+app.logger.info('Flask application startup')
+## end logging
 
 def run_on_start():
     print('Process get vectore from document ...')
